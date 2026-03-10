@@ -1,8 +1,8 @@
-use crate::{GuiState};
-use gtk::prelude::{BoxExt, ButtonExt, GtkWindowExt};
+use crate::gui::{build_button, build_label, build_layout, ButtonExtensions};
+use crate::GuiState;
+use gtk::prelude::{BoxExt, GtkWindowExt};
 use std::cell::RefCell;
 use std::rc::Rc;
-use crate::gui::{build_button, build_label, build_layout};
 
 #[derive(Debug)]
 pub struct AppState {
@@ -56,21 +56,8 @@ fn update_gui_state(gui_state: Rc<RefCell<GuiState>>, app_state: Rc<RefCell<AppS
             container.append(&button_inc);
             container.append(&button_dec);
 
-            button_inc.connect_clicked({
-                let state = app_state.clone();
-                let gui = gui_state.clone();
-                move |_| {
-                    dispatch(gui.clone(), state.clone(), Event::Increment);
-                }
-            });
-
-            button_dec.connect_clicked({
-                let state = app_state.clone();
-                let gui = gui_state.clone();
-                move |_| {
-                    dispatch(gui.clone(), state.clone(), Event::Decrement);
-                }
-            });
+            button_inc.on_button_clicked(app_state.clone(), gui_state.clone(), Event::Increment);
+            button_dec.on_button_clicked(app_state.clone(), gui_state.clone(), Event::Decrement);
 
             main_window.set_child(Some(&container));
             main_window.present();

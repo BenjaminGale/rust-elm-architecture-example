@@ -1,4 +1,8 @@
+use std::cell::RefCell;
+use std::rc::Rc;
 use gtk::{glib, Align, Application, ApplicationWindow, Button, Label};
+use gtk::prelude::ButtonExt;
+use crate::app::{dispatch, AppState, Event};
 
 pub enum GuiState {
     Uninitialised {
@@ -52,4 +56,16 @@ pub fn build_main_window(app: &Application) -> ApplicationWindow {
         .default_height(150)
         .resizable(false)
         .build()
+}
+
+pub trait ButtonExtensions {
+    fn on_button_clicked(&self, app_state: Rc<RefCell<AppState>>, gui_state: Rc<RefCell<GuiState>>, event: Event);
+}
+
+impl ButtonExtensions for Button {
+    fn on_button_clicked(&self, app_state: Rc<RefCell<AppState>>, gui_state: Rc<RefCell<GuiState>>, event: Event) {
+        self.connect_clicked(move |_| {
+            dispatch(gui_state.clone(), app_state.clone(), event);
+        });
+    }
 }
