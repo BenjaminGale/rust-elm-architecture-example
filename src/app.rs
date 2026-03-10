@@ -15,10 +15,10 @@ impl AppState {
             count: 0
         }
     }
-}
 
-pub fn create_count_string(count: isize) -> String {
-    format!("Count: {}", count)
+    pub fn create_count_string(self: &Self) -> String {
+        format!("Count: {}", self.count)
+    }
 }
 
 #[derive(Copy, Clone)]
@@ -47,7 +47,7 @@ fn update_gui_state(gui_state: Rc<RefCell<GuiState>>, app_state: Rc<RefCell<AppS
 
     match &mut *gui {
         GuiState::Uninitialised { main_window } => {
-            let label = build_label(&create_count_string(state.count));
+            let label = build_label(&state.create_count_string());
             let button_inc = build_button("+");
             let button_dec = build_button("-");
 
@@ -80,7 +80,7 @@ fn update_gui_state(gui_state: Rc<RefCell<GuiState>>, app_state: Rc<RefCell<AppS
             }
         }
         GuiState::Initialised { count_label, .. } => {
-            count_label.set_label(&create_count_string(state.count));
+            count_label.set_label(&state.create_count_string());
         }
     }
 }
