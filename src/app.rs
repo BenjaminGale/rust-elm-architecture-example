@@ -1,7 +1,8 @@
-use crate::{build_button, build_label, build_layout, GuiState};
+use crate::{GuiState};
 use gtk::prelude::{BoxExt, ButtonExt, GtkWindowExt};
 use std::cell::RefCell;
 use std::rc::Rc;
+use crate::gui::{build_button, build_label, build_layout};
 
 #[derive(Debug)]
 pub struct AppState {
@@ -14,6 +15,10 @@ impl AppState {
             count: 0
         }
     }
+}
+
+pub fn create_count_string(count: isize) -> String {
+    format!("Count: {}", count)
 }
 
 #[derive(Copy, Clone)]
@@ -78,8 +83,4 @@ fn update_gui_state(gui_state: Rc<RefCell<GuiState>>, app_state: Rc<RefCell<AppS
             count_label.set_label(&create_count_string(state.count));
         }
     }
-}
-
-fn create_count_string(count: isize) -> String {
-    format!("Count: {}", count)
 }
