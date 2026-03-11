@@ -1,12 +1,11 @@
+use gtk::{glib, Application};
+use gtk::prelude::{ApplicationExt, ApplicationExtManual};
+use crate::app::context::AppContext;
+use crate::app::event::Event;
+use crate::gui::build_main_window;
+
 mod app;
 mod gui;
-mod model;
-
-use crate::app::AppContext;
-use crate::gui::{build_main_window, GuiState};
-use gtk::prelude::{ApplicationExt, ApplicationExtManual};
-use gtk::{glib, Application};
-use crate::model::Event;
 
 fn main() -> glib::ExitCode {
     let app = Application::builder()

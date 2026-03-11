@@ -1,9 +1,9 @@
-use crate::gui::render;
-use crate::GuiState;
-use gtk::ApplicationWindow;
 use std::cell::RefCell;
 use std::rc::Rc;
-use crate::model::{Event, AppModel, update_model};
+use gtk::ApplicationWindow;
+use crate::app::event::Event;
+use crate::app::model::{update_model, AppModel};
+use crate::gui::{render, GuiState};
 
 pub struct AppContext {
     gui: Rc<RefCell<GuiState>>,

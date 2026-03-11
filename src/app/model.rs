@@ -1,10 +1,4 @@
-
-#[derive(Copy, Clone)]
-pub enum Event {
-    Init,
-    Increment,
-    Decrement,
-}
+use crate::app::event::Event;
 
 #[derive(Debug)]
 pub struct AppModel {

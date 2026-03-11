@@ -1,7 +1,8 @@
-use crate::app::{AppContext};
-use gtk::prelude::{BoxExt, ButtonExt, GtkWindowExt};
 use gtk::{glib, Align, Application, ApplicationWindow, Button, Label};
-use crate::model::{Event, AppModel};
+use gtk::prelude::{BoxExt, ButtonExt, GtkWindowExt};
+use crate::app::context::AppContext;
+use crate::app::event::Event;
+use crate::app::model::AppModel;
 
 pub enum GuiState {
     Uninitialised {
