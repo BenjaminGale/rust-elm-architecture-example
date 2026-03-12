@@ -1,7 +1,7 @@
 use crate::app::context::AppContext;
 use crate::app::event::CounterEvent;
 use crate::app::model::AppModel;
-use crate::gui::extensions::ButtonExtensions;
+use crate::view::extensions::ButtonExtensions;
 use gtk::prelude::{BoxExt, GtkWindowExt};
 use gtk::{glib, Align, ApplicationWindow, Button, Label};
 

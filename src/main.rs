@@ -1,12 +1,12 @@
 use crate::app::context::AppContext;
 use crate::app::event::AppEvent;
 use crate::app::model::AppModel;
-use crate::gui::gui::AppGui;
 use gtk::prelude::{ApplicationExt, ApplicationExtManual};
 use gtk::{glib, Application};
+use crate::view::app_view::AppView;
 
 mod app;
-mod gui;
+mod view;
 
 fn main() -> glib::ExitCode {
     let app = Application::builder()
@@ -19,8 +19,8 @@ fn main() -> glib::ExitCode {
 
 fn on_activate(app: &Application) {
     let model = AppModel::new();
-    let gui = AppGui::new(app);
-    let app_context = AppContext::new(model, gui);
+    let view = AppView::new(app);
+    let app_context = AppContext::new(model, view);
 
     app_context.dispatch(AppEvent::Init);
 }
