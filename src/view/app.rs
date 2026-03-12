@@ -2,7 +2,7 @@ use gtk::{Application, ApplicationWindow};
 use gtk::prelude::GtkWindowExt;
 use crate::app::context::AppContext;
 use crate::app::model::AppModel;
-use crate::view::counter_view::CounterView;
+use crate::view::counter::CounterView;
 
 pub struct AppView {
     main_window: ApplicationWindow,
@@ -23,7 +23,7 @@ impl AppView {
 
     fn add_counter_view(self: &mut Self, model: &AppModel, app_context: AppContext) {
         let view = CounterView::new(model, app_context.clone());
-        
+
         self.main_window.set_child(Some(&view.root));
         self.counter_view = Some(view);
     }

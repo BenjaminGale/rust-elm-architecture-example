@@ -1,6 +1,6 @@
 use crate::app::context::AppContext;
 use crate::app::model::AppModel;
-use crate::view::app_view::AppView;
+use crate::view::app::AppView;
 use gtk::prelude::{ApplicationExt, ApplicationExtManual};
 use gtk::{glib, Application};
 

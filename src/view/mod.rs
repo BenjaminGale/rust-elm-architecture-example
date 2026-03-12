@@ -1,4 +1,4 @@
 
-pub mod app_view;
-pub mod counter_view;
+pub mod app;
+pub mod counter;
 pub mod extensions;

@@ -2,7 +2,7 @@ use crate::app::event::{AppEvent, Event};
 use crate::app::model::{AppModel};
 use std::cell::RefCell;
 use std::rc::Rc;
-use crate::view::app_view::AppView;
+use crate::view::app::AppView;
 
 #[derive(Clone)]
 pub struct AppContext {
