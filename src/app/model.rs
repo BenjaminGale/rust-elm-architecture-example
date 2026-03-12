@@ -12,15 +12,15 @@ impl AppModel {
         }
     }
 
+    pub fn update(self: &mut Self, event: &Event) {
+        match event {
+            Event::App(AppEvent::Init) => return,
+            Event::Counter(CounterEvent::Increment) => self.count += 1,
+            Event::Counter(CounterEvent::Decrement) => self.count -= 1,
+        }
+    }
+    
     pub fn format_count(self: &Self) -> String {
         format!("Count: {}", self.count)
-    }
-}
-
-pub fn update_model(model: &mut AppModel, event: &Event) {
-    match event {
-        Event::App(AppEvent::Init) => return,
-        Event::Counter(CounterEvent::Increment) => model.count += 1,
-        Event::Counter(CounterEvent::Decrement) => model.count -= 1,
     }
 }

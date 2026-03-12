@@ -1,5 +1,5 @@
 use crate::app::event::Event;
-use crate::app::model::{update_model, AppModel};
+use crate::app::model::{AppModel};
 use std::cell::RefCell;
 use std::rc::Rc;
 use crate::view::app_view::AppView;
@@ -19,7 +19,7 @@ impl AppContext {
     }
 
     pub fn dispatch<T: Into<Event>>(self: &Self, event: T) {
-        update_model(&mut self.model.borrow_mut(), &event.into());
+        self.model.borrow_mut().update(&event.into());
         self.view.borrow_mut().render(&self.model.borrow(), self.clone());
     }
 }
