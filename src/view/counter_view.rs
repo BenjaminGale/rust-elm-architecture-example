@@ -24,7 +24,6 @@ impl CounterView {
         container.append(&decrement_button);
         
         window.set_child(Some(&container));
-        window.present();
         
         CounterView {
             label

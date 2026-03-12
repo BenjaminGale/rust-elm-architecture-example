@@ -1,9 +1,8 @@
 use crate::app::context::AppContext;
-use crate::app::event::AppEvent;
 use crate::app::model::AppModel;
+use crate::view::app_view::AppView;
 use gtk::prelude::{ApplicationExt, ApplicationExtManual};
 use gtk::{glib, Application};
-use crate::view::app_view::AppView;
 
 mod app;
 mod view;
@@ -22,5 +21,5 @@ fn on_activate(app: &Application) {
     let view = AppView::new(app);
     let app_context = AppContext::new(model, view);
 
-    app_context.dispatch(AppEvent::Init);
+    app_context.show_main_window();
 }

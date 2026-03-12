@@ -1,4 +1,5 @@
 use gtk::{Application, ApplicationWindow};
+use gtk::prelude::GtkWindowExt;
 use crate::app::context::AppContext;
 use crate::app::model::AppModel;
 use crate::view::counter_view::CounterView;
@@ -16,10 +17,18 @@ impl AppView {
         }
     }
 
+    pub fn show(self: &Self) {
+        self.main_window.present();
+    }
+
+    fn add_counter_view(self: &mut Self, model: &AppModel, app_context: AppContext) {
+        self.counter_view = Some(CounterView::new(model, &self.main_window, app_context.clone()));
+    }
+
     pub fn render(self: &mut Self, model: &AppModel, app_context: AppContext) {
         match &mut self.counter_view {
-            None => self.counter_view = Some(CounterView::new(model, &self.main_window, app_context.clone())),
-            Some(counter)  => counter.render(model)
+            None => self.add_counter_view(model, app_context),
+            Some(view)  => view.render(model)
         }
     }
 }
