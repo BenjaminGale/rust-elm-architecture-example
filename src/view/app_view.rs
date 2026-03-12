@@ -22,7 +22,10 @@ impl AppView {
     }
 
     fn add_counter_view(self: &mut Self, model: &AppModel, app_context: AppContext) {
-        self.counter_view = Some(CounterView::new(model, &self.main_window, app_context.clone()));
+        let view = CounterView::new(model, app_context.clone());
+        
+        self.main_window.set_child(Some(&view.root));
+        self.counter_view = Some(view);
     }
 
     pub fn render(self: &mut Self, model: &AppModel, app_context: AppContext) {

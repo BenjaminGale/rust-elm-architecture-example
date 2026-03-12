@@ -2,30 +2,30 @@ use crate::app::context::AppContext;
 use crate::app::event::CounterEvent;
 use crate::app::model::AppModel;
 use crate::view::extensions::ButtonExtensions;
-use gtk::prelude::{BoxExt, GtkWindowExt};
-use gtk::{glib, Align, ApplicationWindow, Button, Label};
+use gtk::prelude::BoxExt;
+use gtk::{glib, Align, Button, Label};
 
 pub struct CounterView {
+    pub root: gtk::Box,
     label: Label,
 }
 
 impl CounterView {
-    pub fn new(model: &AppModel, window: &ApplicationWindow, app_context: AppContext) -> CounterView {
+    pub fn new(model: &AppModel, app_context: AppContext) -> CounterView {
         let label = build_label(&model.format_count());
         let increment_button = build_button("+");
         let decrement_button = build_button("-");
-        
+
         increment_button.on_button_clicked(app_context.clone(), CounterEvent::Increment);
         decrement_button.on_button_clicked(app_context.clone(), CounterEvent::Decrement);
-        
+
         let container = build_layout();
         container.append(&label);
         container.append(&increment_button);
         container.append(&decrement_button);
-        
-        window.set_child(Some(&container));
-        
+
         CounterView {
+            root: container,
             label
         }
     }
