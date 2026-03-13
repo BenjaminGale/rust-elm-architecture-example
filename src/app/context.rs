@@ -24,8 +24,10 @@ impl AppContext {
     }
 
     fn dispatch<T: Into<Msg>>(self: &Self, event: T) {
+        let dispatcher = Dispatcher::new(self.clone());
+
         self.model.borrow_mut().update(&event.into());
-        self.view.borrow_mut().render(&self.model.borrow(), &Dispatcher::new(self));
+        self.view.borrow_mut().render(&self.model.borrow(), &dispatcher);
     }
 }
 
@@ -35,9 +37,9 @@ pub struct Dispatcher<> {
 }
 
 impl Dispatcher {
-    pub fn new(app_context: &AppContext) -> Dispatcher {
+    pub fn new(app_context: AppContext) -> Dispatcher {
         Dispatcher {
-            app_context: app_context.clone()
+            app_context
         }
     }
 
