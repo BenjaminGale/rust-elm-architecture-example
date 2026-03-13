@@ -25,6 +25,6 @@ impl AppContext {
 
     pub fn dispatch<T: Into<Msg>>(self: &Self, event: T) {
         self.model.borrow_mut().update(&event.into());
-        self.view.borrow_mut().render(&self.model.borrow(), self.clone());
+        self.view.borrow_mut().render(&self.model.borrow(), self);
     }
 }

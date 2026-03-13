@@ -11,14 +11,14 @@ pub struct CounterView {
 }
 
 impl CounterView {
-    pub fn new(model: &AppModel, app_context: AppContext) -> CounterView {
+    pub fn new(model: &AppModel, app_context: &AppContext) -> CounterView {
         let label = build_label(&model.format_count());
 
         let inc_button = build_button("+");
         let dec_button = build_button("-");
 
-        inc_button.on_clicked(app_context.clone(), || CounterMsg::Increment);
-        dec_button.on_clicked(app_context.clone(), || CounterMsg::Decrement);
+        inc_button.on_clicked(app_context, || CounterMsg::Increment);
+        dec_button.on_clicked(app_context, || CounterMsg::Decrement);
 
         let container = build_layout();
         container.append(&label);
