@@ -3,6 +3,7 @@ use crate::app::model::AppModel;
 use crate::view::app::AppView;
 use gtk::prelude::{ApplicationExt, ApplicationExtManual};
 use gtk::{glib, Application};
+use crate::app::message::AppMsg;
 
 mod app;
 mod view;
@@ -21,5 +22,7 @@ fn on_activate(app: &Application) {
     let view = AppView::new(app);
     let app_context = AppContext::new(model, view);
 
-    app_context.show_main_window();
+    app_context
+        .dispatcher()
+        .dispatch(AppMsg::Init)
 }

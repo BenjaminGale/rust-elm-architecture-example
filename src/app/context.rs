@@ -1,8 +1,8 @@
-use crate::app::message::{AppMsg, Msg};
-use crate::app::model::{AppModel};
+use crate::app::message::Msg;
+use crate::app::model::AppModel;
+use crate::view::app::AppView;
 use std::cell::RefCell;
 use std::rc::Rc;
-use crate::view::app::AppView;
 
 #[derive(Clone)]
 pub struct AppContext {
@@ -18,16 +18,15 @@ impl AppContext {
         }
     }
 
-    pub fn show_main_window(self: &Self) {
-        self.dispatch(AppMsg::Init);
-        self.view.borrow().show();
+    pub fn dispatcher(self: &Self) -> Dispatcher {
+        Dispatcher::new(self.clone())
     }
 
-    fn dispatch<T: Into<Msg>>(self: &Self, event: T) {
-        let dispatcher = Dispatcher::new(self.clone());
+    fn dispatch<T: Into<Msg>>(self: &Self, msg: T) {
+        let msg = msg.into();
 
-        self.model.borrow_mut().update(&event.into());
-        self.view.borrow_mut().render(&self.model.borrow(), &dispatcher);
+        self.model.borrow_mut().update(&msg);
+        self.view.borrow_mut().render(&self.model.borrow(), &msg,  &self.dispatcher());
     }
 }
 
@@ -37,7 +36,7 @@ pub struct Dispatcher<> {
 }
 
 impl Dispatcher {
-    pub fn new(app_context: AppContext) -> Dispatcher {
+    fn new(app_context: AppContext) -> Dispatcher {
         Dispatcher {
             app_context
         }

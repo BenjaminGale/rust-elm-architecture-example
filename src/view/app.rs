@@ -3,6 +3,7 @@ use crate::app::model::AppModel;
 use crate::view::counter::CounterView;
 use gtk::prelude::GtkWindowExt;
 use gtk::{Application, ApplicationWindow};
+use crate::app::message::{AppMsg, Msg};
 
 pub struct AppView {
     main_window: ApplicationWindow,
@@ -17,21 +18,20 @@ impl AppView {
         }
     }
 
-    pub fn show(self: &Self) {
-        self.main_window.present();
-    }
-
-    fn add_counter_view(self: &mut Self, model: &AppModel, dispatcher: &Dispatcher) {
-        let view = CounterView::new(model, dispatcher);
-
-        self.main_window.set_child(Some(&view.root));
-        self.counter_view = Some(view);
-    }
-
-    pub fn render(self: &mut Self, model: &AppModel, dispatcher: &Dispatcher) {
+    pub fn render(self: &mut Self, model: &AppModel, msg: &Msg, dispatcher: &Dispatcher) {
         match &mut self.counter_view {
-            None => self.add_counter_view(model, dispatcher),
-            Some(view)  => view.render(model)
+            None => {
+                if let Msg::App(AppMsg::Init) = msg {
+                    let view = CounterView::new(model, dispatcher);
+                    let root = &view.root;
+
+                    self.main_window.set_child(Some(root));
+                    self.counter_view = Some(view);
+
+                    self.main_window.present();
+                }
+            },
+            Some(view) => view.render(model),
         }
     }
 }
