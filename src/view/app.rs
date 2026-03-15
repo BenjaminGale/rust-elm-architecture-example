@@ -2,7 +2,7 @@ use crate::app::context::Dispatcher;
 use crate::app::model::AppModel;
 use crate::view::counter::CounterView;
 use crate::view::view::LazyView;
-use gtk::prelude::GtkWindowExt;
+use gtk::prelude::{GtkWindowExt, WidgetExt};
 use gtk::{Application, ApplicationWindow};
 
 pub struct AppView {
@@ -19,17 +19,13 @@ impl AppView {
     }
 
     pub fn render(self: &mut Self, model: &AppModel, dispatcher: &Dispatcher) {
-        match self.counter_view {
-            None => {
-                self.counter_view.render(model, dispatcher);
+        self.counter_view.render(model, dispatcher);
 
-                if let Some(v) = &self.counter_view {
-                    self.main_window.set_child(Some(&v.root));
-                }
-
+        if let Some(view) = &self.counter_view {
+            if view.root.parent().is_none() {
+                self.main_window.set_child(Some(&view.root));
                 self.main_window.present();
             }
-            Some(_) => self.counter_view.render(model, dispatcher)
         }
     }
 }
