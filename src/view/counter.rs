@@ -11,34 +11,32 @@ pub struct CounterView {
     label: Label,
 }
 
+impl CounterView {
+    fn build(model: &AppModel, dispatcher: &Dispatcher) -> CounterView {
+        let label = build_label(&model.format_count());
+
+        let inc_button = build_button("+");
+        let dec_button = build_button("-");
+
+        inc_button.on_clicked(dispatcher, || CounterMsg::Increment);
+        dec_button.on_clicked(dispatcher, || CounterMsg::Decrement);
+
+        let container = build_layout();
+        container.append(&label);
+        container.append(&inc_button);
+        container.append(&dec_button);
+
+        CounterView {
+            root: container,
+            label
+        }
+    }
+}
+
 impl LazyView<CounterView> for Option<CounterView> {
     fn render(&mut self, model: &AppModel, dispatcher: &Dispatcher) {
-        match self {
-            None => {
-                let label = build_label(&model.format_count());
-
-                let inc_button = build_button("+");
-                let dec_button = build_button("-");
-
-                inc_button.on_clicked(dispatcher, || CounterMsg::Increment);
-                dec_button.on_clicked(dispatcher, || CounterMsg::Decrement);
-
-                let container = build_layout();
-                container.append(&label);
-                container.append(&inc_button);
-                container.append(&dec_button);
-
-                let counter_view = CounterView {
-                    root: container,
-                    label
-                };
-
-                *self = Some(counter_view)
-            },
-            Some(view) => {
-                view.label.set_label(&model.format_count());
-            }
-        }
+        let view = self.get_or_insert_with(|| CounterView::build(model, dispatcher));
+        view.label.set_label(&model.format_count());
     }
 }
 
